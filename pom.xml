@@ -24,14 +24,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
-
 
     <properties>
         <java.version>1.8</java.version>
     </properties>
-
 
     <build>
         <plugins>
@@ -46,7 +43,9 @@
                     <testFailureIgnore>false</testFailureIgnore>
                     <includes>
                         <include>**/*Test*.java</include>
+                        <!--
                         <include>**/*IT*.java</include>
+                        -->
                     </includes>
                 </configuration>
                 <executions>
