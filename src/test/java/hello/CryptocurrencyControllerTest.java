@@ -22,6 +22,14 @@ public class CryptocurrencyControllerTest {
     private MockMvc mvc;
 
     @Test
+    public void list() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[{'id':1,'name':'Bitcoin'},{'id':2,'name':'Ethereum'}]"));
+    }
+
+
+    @Test
     public void noname() throws Exception {
         mvc.perform(MockMvcRequestBuilders.post("/create").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
