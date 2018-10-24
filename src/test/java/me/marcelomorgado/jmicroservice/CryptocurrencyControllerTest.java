@@ -1,5 +1,6 @@
 package me.marcelomorgado.jmicroservice;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -36,6 +37,13 @@ public class CryptocurrencyControllerTest {
     }
 
     @Ignore
+    private void createWithNoData() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.post("/cryptocurrencies/")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Ignore
     private String create(String json) throws Exception {
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post("/cryptocurrencies/")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -48,44 +56,29 @@ public class CryptocurrencyControllerTest {
     }
 
     @Ignore
-    private void getAll(String expected) throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/cryptocurrencies/getAll")
+    private JSONArray getAll(String expected) throws Exception {
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/cryptocurrencies/getAll")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(expected));
+                .andExpect(content().json(expected)).andReturn();
+
+        return new JSONArray(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
-    public void listEmpty() throws Exception {
+    public void getAll() throws Exception {
         getAll("[]");
+        create(ethJson);
+        getAll("["+ethJson+"]");
     }
-
-
-    @Test
-    public void emptyCreate() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/cryptocurrencies/")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
-    }
-
-
 
     @Test
     public void create() throws Exception {
+        createWithNoData();
         create(ethJson);
     }
 
 
 
-    @Test
-    public void listNotEmpty() throws Exception {
 
-        create(ethJson);
-
-
-        mvc.perform(MockMvcRequestBuilders.get("/cryptocurrencies/getAll")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json("["+ethJson+"]"));
-    }
 }
