@@ -30,6 +30,8 @@ public class CryptocurrencyControllerTest {
     private MockMvc mvc;
 
     private String ethJson = "{ \"symbol\": \"ETH\", \"name\": \"Ethereum\" }";
+    private String btcJson = "{ \"symbol\": \"BTC\", \"name\": \"Bitcoin\" }";
+
 
     @Before
     public void before() {
@@ -56,6 +58,25 @@ public class CryptocurrencyControllerTest {
     }
 
     @Ignore
+    private void updateById(String _id, String json) throws Exception {
+        mvc.perform(MockMvcRequestBuilders.put("/cryptocurrencies/"+_id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+    }
+
+    @Ignore
+    private void deleteById(String _id) throws Exception {
+        mvc.perform(MockMvcRequestBuilders.delete("/cryptocurrencies/"+_id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+    }
+
+    @Ignore
     private JSONArray getAll(String expected) throws Exception {
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/cryptocurrencies/getAll")
                 .accept(MediaType.APPLICATION_JSON))
@@ -63,6 +84,29 @@ public class CryptocurrencyControllerTest {
                 .andExpect(content().json(expected)).andReturn();
 
         return new JSONArray(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Ignore
+    private JSONObject getById(String _id, String expected) throws Exception {
+
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/cryptocurrencies/"+_id)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expected)).andReturn();
+
+        return new JSONObject(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Ignore
+    private void getByInvalidId() throws Exception {
+
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/cryptocurrencies/5bd0afeb9effd61e13673aaa")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(""))
+        .andReturn();
+
+
     }
 
     @Test
@@ -76,6 +120,29 @@ public class CryptocurrencyControllerTest {
     public void create() throws Exception {
         createWithNoData();
         create(ethJson);
+    }
+
+    @Test
+    public void get() throws Exception {
+        String _id = create(ethJson);
+        getById(_id, ethJson);
+        getByInvalidId();
+    }
+
+    @Test
+    public void update() throws Exception {
+        String _id = create(ethJson);
+        getById(_id, ethJson);
+        updateById(_id, btcJson);
+        getById(_id, btcJson);
+    }
+
+    @Test
+    public void delete() throws Exception {
+        String _id = create(ethJson);
+        getAll("["+ethJson+"]");
+        deleteById(_id);
+        getAll("[]");
     }
 
 

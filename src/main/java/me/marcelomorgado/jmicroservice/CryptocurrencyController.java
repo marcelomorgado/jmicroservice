@@ -20,16 +20,16 @@ class CryptocurrencyController {
         return repository.findAll();
     }
 
-//    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-//    public Pets getPetById(@PathVariable("id") ObjectId id) {
-//        return repository.findBy_id(id);
-//    }
-//
-//    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-//    public void modifyPetById(@PathVariable("id") ObjectId id, @Valid @RequestBody Pets pets) {
-//        pets.set_id(id);
-//        repository.save(pets);
-//    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Cryptocurrency get(@PathVariable("id") ObjectId id) {
+        return repository.findBy_id(id);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public void update(@PathVariable("id") ObjectId id, @Valid @RequestBody Cryptocurrency cryptocurrency) {
+        cryptocurrency.set_id(id);
+        repository.save(cryptocurrency);
+    }
 
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
@@ -39,9 +39,9 @@ class CryptocurrencyController {
         return cryptocurrency;
     }
 
-//    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-//    public void deletePet(@PathVariable ObjectId id) {
-//        repository.delete(repository.findBy_id(id));
-//    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable ObjectId id) {
+        repository.delete(repository.findBy_id(id));
+    }
 
 }
