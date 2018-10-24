@@ -18,7 +18,8 @@ jobs:
 
     environment:
       # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3200m -DMONGODB_HOST=$MONGODB_HOST_develop -DMONGODB_PORT=27017 -DMONGODB_DATABASE=jmicroservice-$CIRCLE_BRANCH
+      MAVEN_OPTS: -Xmx3200m
+      #-DMONGODB_HOST=$MONGODB_HOST_develop -DMONGODB_PORT=27017 -DMONGODB_DATABASE=jmicroservice-$CIRCLE_BRANCH
 
     steps:
     - checkout
