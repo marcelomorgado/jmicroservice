@@ -39,7 +39,7 @@ jobs:
         key: v1-dependencies-{{ checksum "pom.xml" }}
 
     # run tests!
-    - run: mvn test -DMONGODB_HOST=35.180.85.13
+    - run: mvn test -DSPRING_DATA_MONGODB_HOST=35.180.85.13
 
 
     - run:
@@ -53,7 +53,9 @@ jobs:
 
     - run:
         name: Deploying
-        command: eb deploy jmicroservice-$CIRCLE_BRANCH
+        command: |
+        eb setenv SPRING_DATA_MONGODB_HOST=35.180.85.13
+        eb deploy jmicroservice-$CIRCLE_BRANCH
 
 workflows:
   version: 2
