@@ -38,9 +38,8 @@ jobs:
         key: v1-dependencies-{{ checksum "pom.xml" }}
 
     # run tests!
-    - run:
-      name: Unit tests
-      command: mvn test
+    - run:mvn test
+
 
     - run:
         name: Installing deployment dependencies
