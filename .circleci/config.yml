@@ -53,9 +53,10 @@ jobs:
 
     - run:
         name: Deploying
-        command: |
-          eb setenv SPRING_DATA_MONGODB_HOST=35.180.85.13
-          eb deploy jmicroservice-$CIRCLE_BRANCH
+        command: eb deploy jmicroservice-$CIRCLE_BRANCH
+        #|
+        #  eb setenv SPRING_DATA_MONGODB_HOST=35.180.85.13
+        #  eb deploy jmicroservice-$CIRCLE_BRANCH
 
 workflows:
   version: 2
