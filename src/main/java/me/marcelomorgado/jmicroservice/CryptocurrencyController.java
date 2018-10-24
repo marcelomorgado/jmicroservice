@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+// https://www.codementor.io/gtommee97/rest-api-java-spring-boot-and-mongodb-j7nluip8d
 @RestController
 @RequestMapping("/cryptocurrencies")
 class CryptocurrencyController {
