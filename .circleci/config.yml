@@ -39,7 +39,7 @@ jobs:
         key: v1-dependencies-{{ checksum "pom.xml" }}
 
     # run tests!
-    - run: mvn test
+    - run: mvn test -DMONGODB_HOST=35.180.85.13
 
 
     - run:
