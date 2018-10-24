@@ -1,0 +1,17 @@
+deploy:
+  artifact: target/jmicroservice-1.0-SNAPSHOT.jar
+branch-defaults:
+  master:
+    environment: jmicroservice-$CIRCLE_BRANCH
+global:
+  application_name: jmicroservice
+  default_ec2_keyname: null
+  default_platform: arn:aws:elasticbeanstalk:eu-west-3::platform/Java 8 running on
+    64bit Amazon Linux/2.7.5
+  default_region: eu-west-3
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  sc: git
+  workspace_type: Application
