@@ -1,4 +1,4 @@
-package hello;
+package me.marcelomorgado.jmicroservice;
 
 import org.json.JSONObject;
 import org.junit.Assert;
