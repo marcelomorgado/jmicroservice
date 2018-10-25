@@ -1,35 +1,20 @@
-# Java Maven CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-java/ for more details
-#
 version: 2
 jobs:
   build:
     docker:
-    # specify the version you desire here
     - image: circleci/openjdk:8-jdk
-
-    # Specify service dependencies here if necessary
-    # CircleCI maintains a library of pre-built images
-    # documented at https://circleci.com/docs/2.0/circleci-images/
-    # - image: circleci/postgres:9.4
 
     working_directory: ~/repo
 
     environment:
-      # Customize the JVM maximum heap limit
       MAVEN_OPTS: -Xmx3200m
-      #-DSPRING_DATA_MONGODB_HOST=35.180.85.13
-      #-DMONGODB_HOST=$MONGODB_HOST_develop -DMONGODB_PORT=27017 -DMONGODB_DATABASE=jmicroservice-$CIRCLE_BRANCH
 
     steps:
     - checkout
 
-    # Download and cache dependencies
     - restore_cache:
         keys:
         - v1-dependencies-{{ checksum "pom.xml" }}
-        # fallback to using the latest cache if no exact match is found
         - v1-dependencies-
 
     - run: mvn dependency:go-offline
@@ -39,9 +24,7 @@ jobs:
         - ~/.m2
         key: v1-dependencies-{{ checksum "pom.xml" }}
 
-    # run tests!
     - run: mvn test -DSPRING_DATA_MONGODB_HOST=35.180.85.13
-
 
     - run:
         name: Installing deployment dependencies
@@ -50,14 +33,11 @@ jobs:
           sudo apt-get install python-pip python-dev build-essential
           sudo pip install awsebcli --upgrade
 
-    - run: mvn package -DSPRING_DATA_MONGODB_HOST=35.180.85.13
+    - run: mvn package -Dmaven.test.skip=true
 
     - run:
         name: Deploying
         command: eb deploy jmicroservice-$CIRCLE_BRANCH
-        #|
-        #  eb setenv SPRING_DATA_MONGODB_HOST=35.180.85.13
-        #  eb deploy jmicroservice-$CIRCLE_BRANCH
 
 workflows:
   version: 2
