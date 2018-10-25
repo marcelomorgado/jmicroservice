@@ -28,7 +28,7 @@ jobs:
 
     - run:
         name: Unit tests
-        command: mvn test -DSPRING_DATA_MONGODB_HOST=35.180.85.13
+        command: mvn test -DSPRING_DATA_MONGODB_HOST=$MONGODB_HOST_develop
 
     - run:
         name: Installing deployment dependencies
