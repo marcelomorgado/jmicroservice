@@ -28,7 +28,7 @@ jobs:
 
     - run:
         name: Unit tests
-        command: mvn test -DSPRING_DATA_MONGODB_HOST=$MONGODB_HOST_$CIRCLE_BRANCH
+        command: mvn test -DSPRING_DATA_MONGODB_HOST=$MONGODB_HOST -DSPRING_DATA_MONGODB_PORT=$MONGODB_PORT -DSPRING_DATA_MONGODB_DATABASE=jmicroservice-$CIRCLE_BRANCH
 
     - run:
         name: Installing deployment dependencies
