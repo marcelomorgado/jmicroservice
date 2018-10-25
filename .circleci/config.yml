@@ -17,14 +17,18 @@ jobs:
         - v1-dependencies-{{ checksum "pom.xml" }}
         - v1-dependencies-
 
-    - run: mvn dependency:go-offline
+    - run:
+        name: Getting dependencies
+        command: mvn dependency:go-offline
 
     - save_cache:
         paths:
         - ~/.m2
         key: v1-dependencies-{{ checksum "pom.xml" }}
 
-    - run: mvn test -DSPRING_DATA_MONGODB_HOST=35.180.85.13
+    - run:
+        name: Unit tests
+        command: mvn test -DSPRING_DATA_MONGODB_HOST=35.180.85.13
 
     - run:
         name: Installing deployment dependencies
@@ -33,7 +37,9 @@ jobs:
           sudo apt-get install python-pip python-dev build-essential
           sudo pip install awsebcli --upgrade
 
-    - run: mvn package -Dmaven.test.skip=true
+    - run:
+        name: Compiling
+        command: mvn package -Dmaven.test.skip=true
 
     - run:
         name: Deploying
